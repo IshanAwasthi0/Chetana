@@ -2,18 +2,22 @@
 
 
 import { FormEvent, useState } from "react"
-import { signUser } from "../actions/PostActions"
 import { useRouter } from "next/navigation"
+import { supabase } from "../lib/supabase-client";
 
 const page = () => {
     const router = useRouter()
     const [email, setEmail] = useState("")
-        const [password, setPassword] = useState("")
-        const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault()
-            signUser(false, email, password)
-            router.push('/')
+    const [password, setPassword] = useState("")
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const { error: signInError } = await supabase.auth.signInWithPassword({email, password})
+            if (signInError) {
+            console.error(signInError);
         }
+        router.push('/')
+        router.refresh()
+    }
     return (
         <div className="flex justify-center items-start min-h-screen pt-27">
             <div className="text-center text-black">

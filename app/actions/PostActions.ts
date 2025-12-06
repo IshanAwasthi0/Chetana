@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { supabase } from "../lib/supabase-client";
 
 
-export const addPost = async ({newPost} : {newPost: {title: string, description: string}}) => {
+export const addPost = async ({newPost} : {newPost: {title: string, description: string, location: string, contact: string, type: string}}) => {
     const {error} = await supabase.from('posts').insert(newPost).single()
     if (error) {
         console.error(error.message)
@@ -23,18 +23,3 @@ export const fetchPosts = async () => {
     return posts
 }
 
-export const signUser = async ( signIn: boolean, email: string, password: string ) => {
-    if ( signIn ){
-            const { error: signInError } = await supabase.auth.signInWithPassword({email, password})
-
-            if (signInError) {
-                console.error(signInError);
-            }
-        } else {
-            const { error: signUpError } = await supabase.auth.signUp({email, password})
-
-            if ( signUpError ) {
-                console.error(signUpError)
-            }
-        }
-}

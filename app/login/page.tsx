@@ -2,7 +2,9 @@
 
 const page = () => {
     return (
-        <div>page</div>
+        <div className="flex justify-center items-start pt- 27 min-h-screen:">
+            
+        </div>
     )
 }
 
